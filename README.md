@@ -33,7 +33,7 @@ Open `.github/workflows/main.yml` and locate the `cron` line. GitHub uses standa
 * `cron: '*/30 * * * *'` — Runs every 30 minutes.
 * `cron: '0 * * * *'` — Runs every hour on the hour.
 
-**Note:** GitHub Actions scheduled tasks can be delayed by 5–15 minutes depending on system load and for free users the runtime rate limit is 2000 minutes/month.
+**Note:** GitHub Actions scheduled tasks can be delayed by 5–15 minutes depending on system load and for free users the runtime rate limit is 2000 minutes/month. If some tweets do not show up consider raising the time window it looks back, altho that may result in some tweet duplication post occasionally.
 
 ### B. Changing the Tweet Search Window (tweet_poster.py)
 Open `tweet_poster.py` and locate the `timedelta` setting inside the `run_filter()` function. This tells the script how many minutes of history to check:
