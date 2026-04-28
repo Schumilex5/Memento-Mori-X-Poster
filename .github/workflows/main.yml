@@ -26,4 +26,4 @@ jobs:
       - name: Run Filter Script
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-        run: python filter.py
+        run: python tweet_poster.py
