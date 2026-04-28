@@ -39,7 +39,7 @@ def run_filter():
             return
 
         now = datetime.now(timezone.utc)
-        time_threshold = now - timedelta(minutes=1250)
+        time_threshold = now - timedelta(minutes=125)
         print(f"Checking for posts after: {time_threshold}")
 
         found_count = 0
