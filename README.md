@@ -1,13 +1,11 @@
-# MementoMori X-to-Discord Bridge
-
-A lightweight GitHub Action that polls the MementoMori (JP) X feed via Nitter and pushes updates to Discord using vxtwitter embeds.
+A GitHub Action that polls the MementoMori (JP) X feed via Nitter and pushes updates to Discord using vxtwitter embeds.
 
 ## How It Works
 
 * Source: Polls the @mementomori_boi RSS feed via Nitter.
 * Link Conversion: Automatically converts X/Twitter links to vxtwitter.com to ensure video and image previews render correctly in Discord.
 * Automation: Runs entirely on GitHub Actions—no local hosting or 24/7 PC required.
-* Time Window: Specifically configured to check for posts within a 125-minute window to match the 2-hour cron schedule.
+* Time Window: Specifically configured to check for posts within a set time window to match the automation schedule.
 
 ## Setup
 
@@ -25,11 +23,24 @@ A lightweight GitHub Action that polls the MementoMori (JP) X feed via Nitter an
 ### 3. Deployment
 Simply push the tweet_poster.py and .github/workflows/main.yml files to your repository. The action is set to run automatically every 2 hours.
 
-## Manual Trigger
-If you want to test the script immediately:
-1. Go to the Actions tab in your GitHub repo.
-2. Select Run X Feed Filter on the left.
-3. Click Run workflow > Run workflow.
+## Adjusting Check Intervals
+
+To change how often the script runs and how far back it looks for tweets, you must update two separate files so they remain "in sync."
+
+### A. Changing the Automation Frequency (main.yml)
+Open `.github/workflows/main.yml` and locate the `cron` line. GitHub uses standard cron syntax:
+* `cron: '0 */2 * * *'` — Runs every 2 hours (Default).
+* `cron: '*/30 * * * *'` — Runs every 30 minutes.
+* `cron: '0 * * * *'` — Runs every hour on the hour.
+
+**Note:** GitHub Actions scheduled tasks can be delayed by 5–15 minutes depending on system load and for free users the runtime rate limit is 2000 minutes/month.
+
+### B. Changing the Tweet Search Window (tweet_poster.py)
+Open `tweet_poster.py` and locate the `timedelta` setting inside the `run_filter()` function. This tells the script how many minutes of history to check:
+* `timedelta(minutes=125)` — Checks the last 2 hours + 15 min buffer (Default).
+* `timedelta(minutes=35)` — Use this if you change the cron to run every 30 minutes.
+
+**Rule of Thumb:** Always set the `minutes` in the script to be slightly higher (5–10 minutes) than your cron interval to account for GitHub's startup delays.
 
 ## Technical Notes
 * Dependencies: Uses requests, beautifulsoup4, and lxml for robust RSS parsing.
