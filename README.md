@@ -35,4 +35,3 @@ If you want to test the script immediately:
 * Dependencies: Uses requests, beautifulsoup4, and lxml for robust RSS parsing.
 * Redundancy: The script uses vxtwitter redirection to bypass Discord's native embed limitations for X.
 * Version: 1.0.
-# Memento-Mori-X-Poster
